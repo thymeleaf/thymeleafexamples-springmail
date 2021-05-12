@@ -65,15 +65,7 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     @Autowired
-    private TemplateEngine htmlTemplateEngine;
-
-    @Autowired
-    private TemplateEngine textTemplateEngine;
-
-    @Autowired
-    private TemplateEngine stringTemplateEngine;
-
-
+    private TemplateEngine emailTemplateEngine;
 
     /* 
      * Send plain TEXT mail 
@@ -96,7 +88,7 @@ public class EmailService {
         message.setTo(recipientEmail);
 
         // Create the plain TEXT body using Thymeleaf
-        final String textContent = this.textTemplateEngine.process(EMAIL_TEXT_TEMPLATE_NAME, ctx);
+        final String textContent = this.emailTemplateEngine.process(EMAIL_TEXT_TEMPLATE_NAME, ctx);
         message.setText(textContent);
 
         // Send email
@@ -125,7 +117,7 @@ public class EmailService {
         message.setTo(recipientEmail);
 
         // Create the HTML body using Thymeleaf
-        final String htmlContent = this.htmlTemplateEngine.process(EMAIL_SIMPLE_TEMPLATE_NAME, ctx);
+        final String htmlContent = this.emailTemplateEngine.process(EMAIL_SIMPLE_TEMPLATE_NAME, ctx);
         message.setText(htmlContent, true /* isHtml */);
 
         // Send email
@@ -156,7 +148,7 @@ public class EmailService {
         message.setTo(recipientEmail);
 
         // Create the HTML body using Thymeleaf
-        final String htmlContent = this.htmlTemplateEngine.process(EMAIL_WITHATTACHMENT_TEMPLATE_NAME, ctx);
+        final String htmlContent = this.emailTemplateEngine.process(EMAIL_WITHATTACHMENT_TEMPLATE_NAME, ctx);
         message.setText(htmlContent, true /* isHtml */);
 
         // Add the attachment
@@ -193,7 +185,7 @@ public class EmailService {
         message.setTo(recipientEmail);
 
         // Create the HTML body using Thymeleaf
-        final String htmlContent = this.htmlTemplateEngine.process(EMAIL_INLINEIMAGE_TEMPLATE_NAME, ctx);
+        final String htmlContent = this.emailTemplateEngine.process(EMAIL_INLINEIMAGE_TEMPLATE_NAME, ctx);
         message.setText(htmlContent, true /* isHtml */);
 
         // Add the inline image, referenced from the HTML code as "cid:${imageResourceName}"
@@ -238,7 +230,7 @@ public class EmailService {
         ctx.setVariable("hobbies", Arrays.asList("Cinema", "Sports", "Music"));
 
         // Create the HTML body using Thymeleaf
-        final String output = stringTemplateEngine.process(htmlContent, ctx);
+        final String output = emailTemplateEngine.process(htmlContent, ctx);
         message.setText(output, true /* isHtml */);
 
         // Add the inline images, referenced from the HTML code as "cid:image-name"
